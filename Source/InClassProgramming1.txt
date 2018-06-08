@@ -1,0 +1,36 @@
+--- Create Keyspace
+CREATE KEYSPACE test WITH REPLICATION={'class': 'SimpleStrategy', 'replication_factor': 3};
+USE test;
+
+--- 1. List the id, name,jobtitle,and hiredate of employee from the employee table.
+CREATE TABLE employee (id INT PRIMARY KEY, name TEXT, jobtitle TEXT, hiredate DATE);
+INSERT INTO employee (id, name, hiredate, jobtitle) VALUES (1, 'jon', '2018-01-23', 'HR');
+INSERT INTO employee (id, name, hiredate, jobtitle) VALUES (2, 'mike', '1980-12-17', 'clerk');
+SELECT id, name, jobtitle, hiredate FROM employee;
+
+--- 2. List the name,salary of the employees who are clerks.
+ALTER TABLE employee ADD salary INT;
+UPDATE employee SET salary = 300 WHERE empno = 1;
+UPDATE employee SET salary = 4300 WHERE empno = 2;
+
+SELECT name, salary FROM employee WHERE jobtitle = 'clerk' ALLOW FILTERING;
+
+--- 3. List the name,job,salary of every employee joined on ‘december 17,1980’,
+SELECT name, jobtitle, salary FROM employee WHERE hiredate = '1980-12-17' ALLOW FILTERING;
+
+--- 4. List name and annual salary of all the employees.
+SELECT name, salary FROM employee;
+
+--- 5. List the department name & deptno for departments having deptno.>=20
+ALTER TABLE employee ADD deptno INT;
+ALTER TABLE employee ADD deptname TEXT;
+UPDATE employee SET deptno = 232, deptname = 'accounting' WHERE empno = 1;
+UPDATE employee SET deptno = 2, deptname = 'fundepartment' WHERE empno = 2;
+
+SELECT deptname, deptno FROM employee WHERE deptno >= 20 ALLOW FILTERING;
+
+--- 6. Display employees’ names, salary and manager values of those employees whose salary is 500 from EMP table using SELECT statement.
+ALTER TABLE employees ADD manager INT;
+UPDATE employee SET manager = 3 WHERE empno =1;
+UPDATE employee SET manager = 2 WHERE empno =2;
+SELECT name, salary, manager FROM employee WHERE salary = 500 ALLOW FILTERING;
