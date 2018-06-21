@@ -1,0 +1,72 @@
+create table acad(emp_id INT NOT NULL AUTO_INCREMENT, emp_name VARCHAR(100), emp_sal INT, PRIMARY KEY(emp_id));
+insert into acad value(5, "sanam",5000)),(6,"opra",600000),(7, "yella",700000);
+sqoop import --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table acad --m 1;
+hadoop fs -ls
+hadoop fs -ls acad/
+hadoop fs -cat acad/*
+sqoop import --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table acad --m 1 --target-dir queryresult;
+hadoop fs -cat queryresult/part-m-*
+sqoop-import-all-tables --connect jdbc:mysql://localhost/db1 --username root --password cloudera
+sqoop-export --table acad --connect jdbc:mysql://localhost/db1 --username root --password cloudera --export-dir queryresult
+---------------------------------------------------------------------------------------------------------------------------
+hive –f tables-schema.hql
+CREATE TABLE emp( empid INT, emp_name STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' STORED AS TEXTFILE;
+hadoop fs -ls /user/hive/warehouse
+mysql
+use db1 ;
+create table empNEW(emid INT, emp_name VARCHAR(100));
+sqoop export --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table empNew --export-dir /user/hive/warehouse/emp -m 1
+
+----------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE stocks (
+  ymd             STRING,
+  price_open      FLOAT, 
+  price_high      FLOAT,
+  price_low       FLOAT,
+  price_close     FLOAT,
+  volume          INT,
+  price_adj_close FLOAT
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+
+LOAD DATA LOCAL INPATH '/home/cloudera/Desktop/newData/input/plain-text/NYSE/GE' 
+INTO TABLE stocks;
+
+--
+use db1;
+
+
+CREATE TABLE stocks (
+  ymd             TEXT,
+  price_open      FLOAT, 
+  price_high      FLOAT,
+  price_low       FLOAT,
+  price_close     FLOAT,
+  volume          INT,
+  price_adj_close FLOAT
+)
+
+sqoop export --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table stocks --export-dir /user/hive/warehouse/stocks -m 1
+
+--
+
+
+SELECT avg(price_close) FROM stocks;
+SELECT ymd, MAX(price_close) FROM stocks;
+\
+SELECT ymd, price_close from stocks WHERE price_close = 76.75;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
