@@ -1,0 +1,29 @@
+terminal 
+solrctl
+solrctl instancedir --generate $HOME/configurationLab2
+
+next-> go to cloudera's home -> configurationLab2 -> conf -> open schema.xml with gedit
+                 DELETE SCHEMA.XML and USE OUR SCHEMA
+
+   
+terminal 
+solrctl instancedir --create  lab2 $HOME/configurationLab2
+
+open firefox and type "http://quickstart.cloudera:8983/solr/#/"
+
+then go to thread and select lab2 and then go to documents  -> then go to document type CSV and copy past the document then submit document 
+
+
+
+EXAMPLES 
+1. state:LA AND _query_:"city: New Orleans"  "QTime": 38 
+2. city:"New York" AND _query_:"company_name:*inc" "QTime": 98
+3. first_name:Jo*  AND _query_:"state:CA" "QTime": 9
+4. city:Abilene AND _query_:"state:KS OR state:TX" "QTime": 6
+5. city:Baltimore AND  _query_:"zip:2121*" "QTime": 8
+
+1. -email:*.com "QTime": 11
+2. phone1:913-* OR phone2:913-* "QTime": 2
+3. address:*st "QTime": "QTime": 6
+4. first_name:Dalene "QTime": 18
+5. city:Abilene  "QTime": 1
